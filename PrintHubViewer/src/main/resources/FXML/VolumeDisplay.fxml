@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.gov.dvla.osg.printhubviewer.controllers.VolumeDisplayController">
+   <children>
+      <TableView fx:id="table_Volume" prefHeight="240.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="column_Application" maxWidth="300.0" minWidth="0.0" prefWidth="300.0" resizable="false" text="APPLICATION" />
+          <TableColumn fx:id="column_Volume" maxWidth="300.0" minWidth="0.0" prefWidth="300.0" resizable="false" text="VOLUME" />
+        </columns>
+      </TableView>
+      <HBox>
+         <children>
+      	  <Button fx:id="button_Update" mnemonicParsing="false" onAction="#updateData" prefWidth="105.0" text="Refresh">
+               <HBox.margin>
+                  <Insets left="100.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="button_Retrieve" mnemonicParsing="false" onAction="#retrieveData" prefWidth="105.0" text="Retrieve Data">
+               <HBox.margin>
+                  <Insets right="100.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox VBox.vgrow="ALWAYS">
+         <children>
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label fx:id="label_Message" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" text="dfgfgdfgdfg" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Label>
+            <Region HBox.hgrow="SOMETIMES" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
