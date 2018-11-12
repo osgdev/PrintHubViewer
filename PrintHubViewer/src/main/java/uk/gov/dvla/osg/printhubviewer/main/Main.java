@@ -28,13 +28,14 @@ public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/VolumeDisplay.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/FXML/VolumeDisplay.fxml"));
+
+        VolumeDisplayController controller = new VolumeDisplayController(service, jarCommand);
+        
+        loader.setController(controller);
+        
         Parent root = loader.load();
-        // Get the Controller from the FXMLLoader
-        VolumeDisplayController controller = loader.getController();
-        // Set data in the controller
-        controller.setClient(service);
-        controller.setJarCmd(jarCommand);
         primaryStage.setTitle("Work Pending in PrintHub");
         //primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("")));
         //primaryStage.setResizable(false);

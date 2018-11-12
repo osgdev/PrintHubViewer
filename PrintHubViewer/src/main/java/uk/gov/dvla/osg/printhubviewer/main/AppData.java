@@ -5,21 +5,14 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AppData {
-
-    @JsonProperty("acronymLookupFile") 
-    private String acronymLookupFile;
 
     @JsonProperty("networkConfigFile") 
     private String networkConfigFile;
-
-    @JsonProperty("outputConfigFile") 
-    private String outputConfigFile;
-
-    @JsonProperty("emailCredentialsFile") 
-    private String emailCredentialsFile;
 
     public File getNetworkConfigFile() {
         return new File(networkConfigFile);
