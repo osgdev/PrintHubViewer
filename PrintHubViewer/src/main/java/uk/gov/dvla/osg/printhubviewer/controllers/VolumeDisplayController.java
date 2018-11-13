@@ -70,11 +70,4 @@ public class VolumeDisplayController {
 		}
 	}
 
-	public void setClient(Service volumeService) {
-		this.volumeService = volumeService;
-	}
-
-	public void setJarCmd(String jarCommand) {
-		this.jarCommand = jarCommand;
-	}
 }
