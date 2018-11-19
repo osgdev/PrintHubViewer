@@ -1,6 +1,10 @@
 package uk.gov.dvla.osg.printhubviewer.controllers;
 
-import org.apache.commons.lang3.StringUtils;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,11 +28,11 @@ public class VolumeDisplayController {
 	@FXML private Label label_Message;
 	
 	private Service volumeService;
-	private String jarCommand;
+	private String outputFileName;
 
-	public VolumeDisplayController(Service volumeService, String jarCommand) {
+	public VolumeDisplayController(Service volumeService, String outputFileName) {
         this.volumeService = volumeService;
-        this.jarCommand = jarCommand;
+        this.outputFileName = outputFileName;
 	}
 	
 	@FXML
@@ -58,16 +62,15 @@ public class VolumeDisplayController {
 		}
 		
 		String selectedJobType = table_Volume.getSelectionModel().getSelectedItem().getJobType();
-		jarCommand = StringUtils.replace(jarCommand, "<JOBTYPE>", "\""+selectedJobType+"\"");
 
-		try {
-		    System.out.println(jarCommand);
-			Runtime.getRuntime().exec("cmd.exe /C " + jarCommand);
-			label_Message.setText(String.format("Data requested for %s", selectedJobType));
-		} catch (Exception ex) {
-		    LOGGER.debug(ex.getMessage());
-			label_Message.setText(ex.getMessage());
-		}
+        try {
+            FileUtils.writeStringToFile(new File(outputFileName), selectedJobType, StandardCharsets.UTF_8, false);
+            label_Message.setText(String.format("Data requested for %s", selectedJobType));
+        } catch (IOException ex) {
+            LOGGER.error("Unable to write data to output file {} : {}", outputFileName, ex.getMessage());
+            label_Message.setText(ex.getMessage());
+        }
+
 	}
 
 }

@@ -24,14 +24,14 @@ public class Main extends Application {
 
     static final Logger LOGGER = LogManager.getLogger();
 	private static Service service;
-	private static String jarCommand;
+	private static String outputFileName;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/FXML/VolumeDisplay.fxml"));
 
-        VolumeDisplayController controller = new VolumeDisplayController(service, jarCommand);
+        VolumeDisplayController controller = new VolumeDisplayController(service, outputFileName);
         
         loader.setController(controller);
         
@@ -50,7 +50,7 @@ public class Main extends Application {
 		}
 		
 		String appConfigFile = args[0];
-		jarCommand = args[1];
+		outputFileName = args[1];
 		
 		File configFile = new File(appConfigFile);
 
