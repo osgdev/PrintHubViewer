@@ -1,4 +1,4 @@
-package uk.gov.dvla.osg.printhubviewer.controllers;
+package uk.gov.dvla.osg.printhub.viewer.controllers;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,9 +12,9 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import uk.gov.dvla.osg.printhub.clientservices.Service;
-import uk.gov.dvla.osg.printhub.clientservices.ServiceResult;
-import uk.gov.dvla.osg.printhub.volumedata.Count;
+import uk.gov.dvla.osg.printhub.core.clientservices.Service;
+import uk.gov.dvla.osg.printhub.core.clientservices.ServiceResult;
+import uk.gov.dvla.osg.printhub.core.volumedata.Count;
 
 public class VolumeDisplayController {
 	

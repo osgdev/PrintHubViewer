@@ -1,4 +1,4 @@
-package uk.gov.dvla.osg.printhubviewer.main;
+package uk.gov.dvla.osg.printhub.viewer.main;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,11 +14,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import uk.gov.dvla.osg.printhub.client.INetworkClient;
-import uk.gov.dvla.osg.printhub.client.PrintHubClient;
-import uk.gov.dvla.osg.printhub.clientservices.Service;
-import uk.gov.dvla.osg.printhub.clientservices.VolumeService;
-import uk.gov.dvla.osg.printhubviewer.controllers.VolumeDisplayController;
+import uk.gov.dvla.osg.printhub.core.client.INetworkClient;
+import uk.gov.dvla.osg.printhub.core.client.PrintHubClient;
+import uk.gov.dvla.osg.printhub.core.clientservices.Service;
+import uk.gov.dvla.osg.printhub.core.clientservices.VolumeService;
+import uk.gov.dvla.osg.printhub.viewer.controllers.VolumeDisplayController;
 
 public class Main extends Application {
 

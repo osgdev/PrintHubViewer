@@ -1,4 +1,4 @@
-package uk.gov.dvla.osg.printhubviewer.main;
+package uk.gov.dvla.osg.printhub.viewer.main;
 
 import java.io.File;
 import java.util.Arrays;
