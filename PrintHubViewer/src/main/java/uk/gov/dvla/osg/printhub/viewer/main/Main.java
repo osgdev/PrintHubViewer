@@ -13,6 +13,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import uk.gov.dvla.osg.printhub.core.client.INetworkClient;
 import uk.gov.dvla.osg.printhub.core.client.PrintHubClient;
@@ -36,9 +37,9 @@ public class Main extends Application {
         loader.setController(controller);
         
         Parent root = loader.load();
-        primaryStage.setTitle("Work Pending in PrintHub");
-        //primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("")));
-        //primaryStage.setResizable(false);
+        primaryStage.setTitle("Work in PrintHub");
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/Icons/main_icon.png")));
+        primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

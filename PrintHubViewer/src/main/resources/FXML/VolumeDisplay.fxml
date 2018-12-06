@@ -20,7 +20,7 @@
       </TableView>
       <HBox>
          <children>
-      	  <Button fx:id="button_Update" mnemonicParsing="false" onAction="#updateData" prefWidth="105.0" text="Refresh">
+      	  <Button fx:id="button_Update" mnemonicParsing="false" onAction="#updateData" prefWidth="105.0" text="Refresh List">
                <HBox.margin>
                   <Insets left="100.0" />
                </HBox.margin>
@@ -45,7 +45,7 @@
       <HBox VBox.vgrow="ALWAYS">
          <children>
             <Region HBox.hgrow="SOMETIMES" />
-            <Label fx:id="label_Message" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" text="dfgfgdfgdfg" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+            <Label fx:id="label_Message" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" text="" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>

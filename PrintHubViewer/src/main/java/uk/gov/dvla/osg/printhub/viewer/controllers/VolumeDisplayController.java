@@ -3,14 +3,19 @@ package uk.gov.dvla.osg.printhub.viewer.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.text.TextStringBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.PropertyValueFactory;
 import uk.gov.dvla.osg.printhub.core.clientservices.Service;
 import uk.gov.dvla.osg.printhub.core.clientservices.ServiceResult;
@@ -18,9 +23,14 @@ import uk.gov.dvla.osg.printhub.core.volumedata.Count;
 
 public class VolumeDisplayController {
 	
-	static final Logger LOGGER = LogManager.getLogger();
+
+    private static final String TIMESTAMP_FORMAT = "ddMMyyyy_hhmmss";
+    private static final String FILENAME_PREFIX = "PRINTHUB.REQUEST.";
+    private static final String FILENAME_SUFFIX = ".DAT";
+
+    static final Logger LOGGER = LogManager.getLogger();
 	
-	@FXML private TableView<Count> table_Volume= new TableView<Count>();;
+	@FXML private TableView<Count> table_Volume = new TableView<Count>();;
 	@FXML private TableColumn<Count, String> column_Application;
 	@FXML private TableColumn<Count, String> column_Volume;
 	@FXML private Button button_Retrieve;
@@ -28,17 +38,18 @@ public class VolumeDisplayController {
 	@FXML private Label label_Message;
 	
 	private Service volumeService;
-	private String outputFileName;
+	private String hotFolder;
 
-	public VolumeDisplayController(Service volumeService, String outputFileName) {
+	public VolumeDisplayController(Service volumeService, String hotFolder) {
         this.volumeService = volumeService;
-        this.outputFileName = outputFileName;
+        this.hotFolder = hotFolder;
 	}
 	
 	@FXML
 	private void initialize() {
 		column_Application.setCellValueFactory(new PropertyValueFactory<Count, String>("jobType"));
 		column_Volume.setCellValueFactory(new PropertyValueFactory<Count, String>("volume"));
+		table_Volume.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		button_Update.fire();
 	}
 
@@ -61,16 +72,39 @@ public class VolumeDisplayController {
 			return;
 		}
 		
-		String selectedJobType = table_Volume.getSelectionModel().getSelectedItem().getJobType();
-
+		TableViewSelectionModel<Count> selectionModel = table_Volume.getSelectionModel();
+		ObservableList<Count> selectedItems = selectionModel.getSelectedItems();
+		TextStringBuilder selectedJobTypes = new TextStringBuilder();
+		
+		for (Count item : selectedItems) {
+		    selectedJobTypes.appendln(item.getJobType());
+		}
+		
+		String timestamp = DateFormatUtils.format(new Date(), TIMESTAMP_FORMAT);
+		
+		StringBuilder outputFilename = new StringBuilder();
+		outputFilename.append(FILENAME_PREFIX);
+		outputFilename.append(timestamp);
+		outputFilename.append(FILENAME_SUFFIX);
+		
         try {
-            FileUtils.writeStringToFile(new File(outputFileName), selectedJobType, StandardCharsets.UTF_8, false);
-            label_Message.setText(String.format("Data requested for %s", selectedJobType));
+            FileUtils.writeStringToFile(new File(hotFolder, outputFilename.toString()), selectedJobTypes.toString(), StandardCharsets.UTF_8, false);
+            if (selectedItems.size() == 1) {
+                label_Message.setText(String.format("Data requested for %s", selectedJobTypes));
+            } else {
+                label_Message.setText("Data requested for multiple items");
+            }
         } catch (IOException ex) {
-            LOGGER.error("Unable to write data to output file {} : {}", outputFileName, ex.getMessage());
+            LOGGER.error("Unable to write data to hot folder {} : {}", hotFolder, ex.getMessage());
             label_Message.setText(ex.getMessage());
         }
 
+        selectionModel.clearSelection();
 	}
+
+    public void logout() {
+        // TODO Auto-generated method stub
+        
+    }
 
 }
