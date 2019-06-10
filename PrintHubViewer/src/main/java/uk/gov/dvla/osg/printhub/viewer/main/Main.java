@@ -15,24 +15,39 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import uk.gov.dvla.osg.printhub.core.client.INetworkClient;
-import uk.gov.dvla.osg.printhub.core.client.PrintHubClient;
-import uk.gov.dvla.osg.printhub.core.clientservices.Service;
-import uk.gov.dvla.osg.printhub.core.clientservices.VolumeService;
+import uk.gov.dvla.osg.printhub.core.config.NetworkConfig;
+import uk.gov.dvla.osg.printhub.core.services.VolumeService;
+import uk.gov.dvla.osg.printhub.viewer.controllers.VolumeController;
 import uk.gov.dvla.osg.printhub.viewer.controllers.VolumeDisplayController;
+import uk.gov.dvla.osg.printhub.viewer.volume.GetVolumeQuery;
+import uk.gov.dvla.osg.printhub.viewer.volume.VolumeDeserializer;
 
 public class Main extends Application {
 
     static final Logger LOGGER = LogManager.getLogger();
-	private static Service service;
 	private static String outputFileName;
+	private static AppData appConfig = null;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/FXML/VolumeDisplay.fxml"));
 
-        VolumeDisplayController controller = new VolumeDisplayController(service, outputFileName);
+        // NETWORK CONFIG
+        NetworkConfig networkConfig = null;
+        try {
+            File networkConfigFile = appConfig.getNetworkConfigFile();
+            networkConfig = new ObjectMapper(new YAMLFactory()).readValue(networkConfigFile, NetworkConfig.class);
+        } catch (Exception e) {
+            LOGGER.fatal("Unable to load network config file [{}] : {}", appConfig.getNetworkConfigFile().getAbsoluteFile(), e.getMessage());
+            return;
+        }
+        
+        VolumeService volumeService = new VolumeService(networkConfig);
+        VolumeDeserializer volumeDeserializer = new VolumeDeserializer();
+        GetVolumeQuery getVolumeQuery = new GetVolumeQuery(volumeService, volumeDeserializer);
+        VolumeController volumeController = VolumeController.getInstance(getVolumeQuery);
+        VolumeDisplayController controller = new VolumeDisplayController(volumeController, outputFileName);
         
         loader.setController(controller);
         
@@ -61,8 +76,6 @@ public class Main extends Application {
 			return;
 		}
 
-		AppData appConfig = null;
-
 		try {
 			appConfig = new ObjectMapper(new YAMLFactory()).readValue(configFile, AppData.class);
 		} catch (IOException ex) {
@@ -75,10 +88,6 @@ public class Main extends Application {
 			return;
 		}
 
-		File networkConfigFile = appConfig.getNetworkConfigFile();
-		INetworkClient client = new PrintHubClient(networkConfigFile);
-		
-        service = VolumeService.getInstance(client);
         launch(args);
     }
     

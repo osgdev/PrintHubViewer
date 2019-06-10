@@ -17,9 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.PropertyValueFactory;
-import uk.gov.dvla.osg.printhub.core.clientservices.Service;
-import uk.gov.dvla.osg.printhub.core.clientservices.ServiceResult;
-import uk.gov.dvla.osg.printhub.core.volumedata.Count;
+import uk.gov.dvla.osg.printhub.viewer.volume.Count;
 
 public class VolumeDisplayController {
 	
@@ -37,11 +35,11 @@ public class VolumeDisplayController {
 	@FXML private Button button_Update;
 	@FXML private Label label_Message;
 	
-	private Service volumeService;
+	private VolumeController volumeController;
 	private String hotFolder;
 
-	public VolumeDisplayController(Service volumeService, String hotFolder) {
-        this.volumeService = volumeService;
+	public VolumeDisplayController(VolumeController volumeController, String hotFolder) {
+        this.volumeController = volumeController;
         this.hotFolder = hotFolder;
 	}
 	
@@ -50,16 +48,18 @@ public class VolumeDisplayController {
 		column_Application.setCellValueFactory(new PropertyValueFactory<Count, String>("jobType"));
 		column_Volume.setCellValueFactory(new PropertyValueFactory<Count, String>("volume"));
 		table_Volume.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		table_Volume.setPlaceholder(new Label("No data available in PrintHub!"));
 		button_Update.fire();
 	}
 
 	@FXML
 	private void updateData() {
-		ServiceResult result = volumeService.execute(ServiceResult.success());
+	    ControllerResult result = volumeController.execute();
+	    
 		if (result.isError()) {
 			label_Message.setText(result.getMessage());
 		} else {
-			table_Volume.setItems(FXCollections.observableArrayList(result.getVolume().getAll()));
+			table_Volume.setItems(FXCollections.observableArrayList(result.getVolume()));
 			label_Message.setText("");
 		}
 	}
