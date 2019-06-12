@@ -24,7 +24,7 @@ import uk.gov.dvla.osg.printhub.viewer.volume.VolumeDeserializer;
 
 public class Main extends Application {
 
-    static final Logger LOGGER = LogManager.getLogger();
+    static final Logger LOG = LogManager.getLogger();
 	private static String outputFileName;
 	private static AppData appConfig = null;
     
@@ -39,7 +39,7 @@ public class Main extends Application {
             File networkConfigFile = appConfig.getNetworkConfigFile();
             networkConfig = new ObjectMapper(new YAMLFactory()).readValue(networkConfigFile, NetworkConfig.class);
         } catch (Exception e) {
-            LOGGER.fatal("Unable to load network config file [{}] : {}", appConfig.getNetworkConfigFile().getAbsoluteFile(), e.getMessage());
+            LOG.fatal("Unable to load network config file [{}] : {}", appConfig.getNetworkConfigFile().getAbsoluteFile(), e.getMessage());
             return;
         }
         
@@ -61,7 +61,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {   
 		if (args.length != 2) {
-			LOGGER.error("Incorrect number of arguments supplied.");
+			LOG.error("Incorrect number of arguments supplied.");
 			return;
 		}
 		
@@ -71,7 +71,7 @@ public class Main extends Application {
 		File configFile = new File(appConfigFile);
 
 		if (!configFile.exists()) {
-			LOGGER.error("Application Configuration File [{}] does not exist on the filepath.",
+			LOG.error("Application Configuration File [{}] does not exist on the filepath.",
 					configFile.getAbsolutePath());
 			return;
 		}
@@ -79,12 +79,12 @@ public class Main extends Application {
 		try {
 			appConfig = new ObjectMapper(new YAMLFactory()).readValue(configFile, AppData.class);
 		} catch (IOException ex) {
-			LOGGER.error("Unable to load application configuration file {} : {}", appConfigFile, ex.getMessage());
+			LOG.error("Unable to load application configuration file {} : {}", appConfigFile, ex.getMessage());
 			return;
 		}
 
 		if (!appConfig.checkValidity().getLeft()) {
-			LOGGER.error("Missing Configuration File(s) : " + appConfig.checkValidity().getRight());
+			LOG.error("Missing Configuration File(s) : " + appConfig.checkValidity().getRight());
 			return;
 		}
 

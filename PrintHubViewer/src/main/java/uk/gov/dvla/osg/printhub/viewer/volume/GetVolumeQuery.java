@@ -12,7 +12,7 @@ import uk.gov.dvla.osg.printhub.core.services.VolumeService;
 
 public class GetVolumeQuery {
     
-    static final Logger LOGGER = LogManager.getLogger();
+    static final Logger LOG = LogManager.getLogger();
 
     private VolumeService service;
     private final VolumeDeserializer volumeDeserializer;
@@ -25,7 +25,7 @@ public class GetVolumeQuery {
     public VolumeCounts execute() throws RuntimeException {
         String data = service.getVolume();
 
-        LOGGER.debug("Volume response from server: {}", data);
+        LOG.debug("Volume response from server: {}", data);
         
         ObjectMapper mapper = new ObjectMapper();
         

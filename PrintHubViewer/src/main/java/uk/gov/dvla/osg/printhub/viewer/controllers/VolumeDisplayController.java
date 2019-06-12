@@ -26,7 +26,7 @@ public class VolumeDisplayController {
     private static final String FILENAME_PREFIX = "PRINTHUB.REQUEST.";
     private static final String FILENAME_SUFFIX = ".DAT";
 
-    static final Logger LOGGER = LogManager.getLogger();
+    static final Logger LOG = LogManager.getLogger();
 	
 	@FXML private TableView<Count> table_Volume = new TableView<Count>();;
 	@FXML private TableColumn<Count, String> column_Application;
@@ -95,7 +95,7 @@ public class VolumeDisplayController {
                 label_Message.setText("Data requested for multiple items");
             }
         } catch (IOException ex) {
-            LOGGER.error("Unable to write data to hot folder {} : {}", hotFolder, ex.getMessage());
+            LOG.error("Unable to write data to hot folder {} : {}", hotFolder, ex.getMessage());
             label_Message.setText(ex.getMessage());
         }
 
