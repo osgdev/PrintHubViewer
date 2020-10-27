@@ -10,22 +10,22 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import uk.gov.dvla.osg.printhub.core.services.VolumeService;
 
-public class GetVolumeQuery {
+public class VolumeQuery {
     
     static final Logger LOG = LogManager.getLogger();
 
     private VolumeService service;
     private final VolumeDeserializer volumeDeserializer;
     
-    public GetVolumeQuery (VolumeService service, VolumeDeserializer volumeDeserializer) {
+    public VolumeQuery (VolumeService service, VolumeDeserializer volumeDeserializer) {
         this.volumeDeserializer = volumeDeserializer;
         this.service = service;
     }
     
     public VolumeCounts execute() throws RuntimeException {
-        String data = service.getVolume();
+        String json = service.getVolume();
 
-        LOG.debug("Volume response from server: {}", data);
+        LOG.debug("Volume response from server: {}", json);
         
         ObjectMapper mapper = new ObjectMapper();
         
@@ -34,9 +34,9 @@ public class GetVolumeQuery {
         mapper.registerModule(module);
         
         try {
-            return mapper.readValue(data, VolumeCounts.class);
+            return mapper.readValue(json, VolumeCounts.class);
         } catch (IOException ex) {
-            throw new RuntimeException(String.format("VolumeService is unable to parse JSON response:\n%s\n\nPrintHub response was:\n%s", ex.getMessage(), data));
+            throw new RuntimeException(String.format("VolumeService is unable to parse JSON response:\n%s\n\nPrintHub response was:\n%s", ex.getMessage(), json));
         }
     }
 }

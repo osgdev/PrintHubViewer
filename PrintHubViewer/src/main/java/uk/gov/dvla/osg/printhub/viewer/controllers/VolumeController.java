@@ -1,17 +1,17 @@
 package uk.gov.dvla.osg.printhub.viewer.controllers;
 
-import uk.gov.dvla.osg.printhub.viewer.volume.GetVolumeQuery;
+import uk.gov.dvla.osg.printhub.viewer.volume.VolumeQuery;
 import uk.gov.dvla.osg.printhub.viewer.volume.VolumeCounts;
 
 public class VolumeController {
 
-    private GetVolumeQuery query;
+    private VolumeQuery query;
 
-    public static VolumeController getInstance(GetVolumeQuery getVolumeQuery) {
+    public static VolumeController getInstance(VolumeQuery getVolumeQuery) {
         return new VolumeController(getVolumeQuery);
     }
 
-    private VolumeController(GetVolumeQuery getVolumeQuery) {
+    private VolumeController(VolumeQuery getVolumeQuery) {
         this.query = getVolumeQuery;
     }
 

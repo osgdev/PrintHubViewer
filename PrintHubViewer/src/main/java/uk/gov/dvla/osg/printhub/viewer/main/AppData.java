@@ -20,7 +20,8 @@ public class AppData {
 
     public ImmutablePair<Boolean, String> checkValidity() {
         return Arrays.asList(getNetworkConfigFile())
-                     .stream().filter(file -> !file.exists())
+                     .stream()
+                     .filter(file -> !file.exists())
                      .map(f -> f.getName())
                      .reduce((x, y) -> x + " , " + y)
                      .map(s -> new ImmutablePair<>(false, s))
